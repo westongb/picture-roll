@@ -20,3 +20,69 @@
 .App-link {
   color: #09d3ac;
 }
+
+body {
+  background-color:#1d1d1d
+}
+
+.banner-image {
+ overflow: hidden;
+ width: 90%;
+ height:600px;
+ 
+ 
+ margin: 0;
+}
+
+h1{
+  color: #FFD007;
+  font-family: CooperHewitt-Bold, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+h2 {
+  color: #FFD007;
+  font-family: CooperHewitt-Light, Arial, Helvetica, sans-serif;
+}
+
+p {
+  color: #ffffff;
+  font-family: CooperHewitt-Book, Arial, Helvetica, sans-serif;
+}
+
+.Menu{
+  position: sticky;
+}
+
+#currentCourse{
+  align-items: center;
+  margin-left: 5%;
+}
+
+footer{
+  height: 100px;
+}
+
+.menuItems{
+  display: flex;
+  background-color: black;
+
+}
+
+#navigation{
+  display: flex;
+  justify-content: space-evenly;
+  padding-left: 60%;
+  width: 30%;
+  padding-right:10%;
+  background-color: black;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  font-size: 20px;
+  color: #FFD007;
+}
+
+#logo{
+  float: left;
+  height: 100px;
+}
