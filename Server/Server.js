@@ -7,6 +7,7 @@ const port = process.env.PORT || 5000;
 
 var db
 
+app.use(cors());
 app.use(bodyParser());
 
 MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.mongodb.net/Classes?retryWrites=true&w=majority',{ useUnifiedTopology: true },(err, client)=> {

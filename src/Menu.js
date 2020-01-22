@@ -4,6 +4,7 @@ import Current from "./Draper";
 import Main from "./Main";
 import "./App.css";
 import AddClass from "./Forms/Add_Class";
+import AddStudent from "./Forms/AddStudent";
 
 class Menu extends Component {
     constructor (props) {
@@ -30,12 +31,16 @@ render(props) {
               <li>
               <Link to="/addclass">Add Courses</Link>
               </li>
+              <li>
+              <Link to="/addstudent">Add Student</Link>
+              </li>
               </ul>
             </span>
           </nav>
           <Route exact path="/" component={Main}/>
           <Route path="/current" component={Current}/>
           <Route path="/addclass" component={AddClass}/>
+          <Route path="/addstudent" component={AddStudent}/>
         </div>
     
         </Router>

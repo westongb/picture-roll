@@ -2,3 +2,12 @@
     color: white;
     margin-right: 10px;
 }
+form {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    justify-content: center;
+    margin-left:40%;
+    margin-right: 40%;
+    color: white;
+}
