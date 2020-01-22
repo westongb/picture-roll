@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Current from "./Draper";
 import Main from "./Main";
 import "./App.css";
+import AddClass from "./Forms/Add_Class";
 
 class Menu extends Component {
     constructor (props) {
@@ -26,11 +27,15 @@ render(props) {
                 <li>
               <Link to="/current">Current Courses</Link>
               </li>
+              <li>
+              <Link to="/addclass">Add Courses</Link>
+              </li>
               </ul>
             </span>
           </nav>
           <Route exact path="/" component={Main}/>
           <Route path="/current" component={Current}/>
+          <Route path="/addclass" component={AddClass}/>
         </div>
     
         </Router>

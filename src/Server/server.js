@@ -7,7 +7,7 @@ const Directory = require('./Methods/StudentDirectory');
 const app = express();
 const port = process.env.PORT || 5000;
 
-mongoose.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.mongodb.net/ClassDirectory?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
