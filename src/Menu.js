@@ -26,7 +26,7 @@ render(props) {
                 <Link to="/">Home</Link>
                 </li>
                 <li>
-              <Link to="/current">Current Courses</Link>
+              <Link to="/current">Search Courses</Link>
               </li>
               <li>
               <Link to="/addclass">Add Courses</Link>
