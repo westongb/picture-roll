@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Draper from "./Draper";
+import Draper from "./SearchCourses";
 import Menu from "./Menu";
 import Main from "./Main";
 

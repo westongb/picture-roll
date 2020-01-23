@@ -29,28 +29,32 @@ export default function AddStudent() {
     
 
     const [classes, setClasses] = useState("")
-    
     let Course;
     let courseList;
     let classesList;
-
+    let classCampus;
+    let classStartDate;
+    let className;
+    let courseText;
     //deconstruct Get
 
 if(classes != "") {
-    let classesList = classes.map( function(item,i){
+    console.log(classes);
+    classesList = classes.map( (item,i) => {
         let itemIdex = item[i];
-        let className = item.ClassName;
-        let classStartDate =  item.StartDate;
-        let classCampus = item.Campus;
-        let Course = className + classStartDate + classCampus;
-
+        className = item.ClassName;
+        classStartDate = item.StartDate;
+        classCampus = item.Campus;
+        
+        Course = className+classStartDate+classCampus;
+        console.log(Course)
         return(
-    <div>
-    <option value="Course">{}</option>
-    </div>
+    
+    <option value={Course}>{Course}</option>
+    
         )
     })
-}
+}   
 
 // function myFunction(){
 //     var x = document.getElementById("myFile");
@@ -97,11 +101,15 @@ console.log(classes)
                 <input type="text"></input>
                 <br></br>
                 <label>Course</label>
-                    <select>{classesList}</select>
+                    <select>
+                        <option>Select Course</option>
+                        {classesList}
+                    </select>
                 <br></br>
                 <label>New Student Survey</label>
                 <input type="text"></input>
                 <br></br>
+                <button>Submit</button>
             </form>
         </div>
     );

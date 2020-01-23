@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Current from "./Draper";
+import Current from "./SearchCourses";
 import Main from "./Main";
 import "./App.css";
 import AddClass from "./Forms/Add_Class";
@@ -28,12 +28,12 @@ render(props) {
                 <li>
               <Link to="/current">Search Courses</Link>
               </li>
-              <li>
+              {/* <li>
               <Link to="/addclass">Add Courses</Link>
               </li>
               <li>
               <Link to="/addstudent">Add Student</Link>
-              </li>
+              </li> */}
               </ul>
             </span>
           </nav>

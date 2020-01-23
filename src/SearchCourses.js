@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import Modal from "./Forms/StudentsModal";
+import ClassModal from "./Forms/ClassModal";
 
 export default function Current() {
+
+   
 
     useEffect(() => {
         getCourse({})
        
     },[]);
 
+
+//get classs data
     function getCourse(res){
         fetch("http://localhost:5000/classes/get", {
             method: "GET"
@@ -24,11 +29,15 @@ export default function Current() {
         // }
         )
     }
-
     
+//set up State
+    const [selectedCourse, setSelectedCourse] = useState()
+
+    const SelectedCourseContext = React.createContext(selectedCourse);
 
     const [classes, setClasses] = useState("")
     
+//set up variables for deconstruction
     let Course;
     let courseList;
     let classesList;
@@ -36,7 +45,8 @@ export default function Current() {
     let classStartDate;
     let className;
     let courseText;
-    //deconstruct Get
+    
+//deconstruct Get
 
 if(classes != "") {
     console.log(classes);
@@ -49,26 +59,39 @@ if(classes != "") {
         Course = className+classStartDate+classCampus;
         console.log(Course)
         return(
-    <div>
     <option value={Course}>{Course}</option>
-    </div>
         )
     })
 }   
 
 console.log(classes)
 
+
+//Table of student info
+
+
+
+
+
+
+
+
+
     return(
         <div>
+            <div>
             <h1>Lets see if this works. </h1>
             <form>
             <label>Course</label>
-                    <select>
-                        <option>{classesList}</option>
+                    <select onChange={(e)=> setSelectedCourse(e.target.value)}>
+                        <option value="default">Select Class</option>
+                        {classesList}
                      </select>
             </form>
-            <button>Add Course</button>
-            <button>Add Student</button>
+            <Modal/>
+            <ClassModal/>
+            </div>
+            
         </div>
     );
 }
