@@ -56,6 +56,8 @@ if(classes != "") {
     })
 }   
 
+const [studentName, setStudentName] = useState("");
+const [studentCourse, setStudentCourse] = useState("");
 // function myFunction(){
 //     var x = document.getElementById("myFile");
 //     var txt = "";
@@ -98,16 +100,16 @@ console.log(classes)
                 <input type="file"></input>
                 <br></br>
                 <label>Student Name</label>
-                <input type="text"></input>
+                <input type="text" value={studentName} onChange={(e)=>{setStudentName(e.target.value)}}/>
                 <br></br>
                 <label>Course</label>
-                    <select>
+                    <select value={setStudentCourse} onChange={(e)=> {setStudentCourse(e.target.value)}}>
                         <option>Select Course</option>
                         {classesList}
                     </select>
                 <br></br>
                 <label>New Student Survey</label>
-                <input type="text"></input>
+                <input type="text" ></input>
                 <br></br>
                 <button>Submit</button>
             </form>

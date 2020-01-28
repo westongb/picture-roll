@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const app = express();
 const app2 = express();
 const port = process.env.PORT || 5000;
-const port2 = process.env.PORT || 6000;
+const port2 = process.env.PORT || 8000;
 
 var db
 var db2
@@ -17,6 +17,9 @@ MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.m
     if (err) return console.log(err)
     db= client.db('ClassDirectory')
     collection = db.collection("Classes")
+    console.log("Connected to" + collection)
+    db2= client.db('ClassDirectory')
+    collection = db2.collection("Students")
     console.log("Connected to" + collection)
 
 // db.collection('Classes').find({}).toArray(function(err,res){
@@ -69,39 +72,17 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
 )
   });
 
-
-
-    app.listen(5000, ()=> {
-        console.log('listening on 5000')
-    })
-})
-
-app2.use(cors());
-app2.use(bodyParser());
-
-MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.mongodb.net/Students?retryWrites=true&w=majority',{ useUnifiedTopology: true },(err, client)=> {
-    if (err) return console.log(err)
-    db2= client.db('ClassDirectory')
-    collection = db2.collection("Students")
-    console.log("Connected to" + collection)
-
-// db.collection('Classes').find({}).toArray(function(err,res){
-//     if (err) throw err
-//     console.log(res)
-// })
-
-
-app2.get("/students/get", (req,res) =>{
-    db2.collection('Students').find({}).toArray(
+  app.get("/students/:course", (req,res) =>{
+    db2.collection('Students').find({"Course":req.params.course}).toArray(
         function(err, data){
-        if (err) {return err}
+        if (err) {return console.log(err)}
         else { 
       console.log(data)
             res.json(data)
         }})   
 })
 
-app2.post("/students/post", (req,res) => {
+app.post("/students/post", (req,res) => {
     console.log(req.body)
     db2.collection('Students').insertOne(req.body, (err, response) => {
        
@@ -117,9 +98,7 @@ app2.post("/students/post", (req,res) => {
 
 })
 
-
-
-app2.delete("/students/delete/:_id", (req, res) => {
+app.delete("/students/delete/:_id", (req, res) => {
    var id= req.params._id;
    console.log(id);
 db2.collection('Students').deleteOne({"_id":req.params._id}
@@ -137,8 +116,11 @@ db2.collection('Students').deleteOne({"_id":req.params._id}
 
 
 
-    app2.listen(6000, ()=> {
-        console.log('listening on 6000')
+    app.listen(5000, ()=> {
+        console.log('listening on 5000')
     })
 })
 
+
+
+//app.locals.collection[name]

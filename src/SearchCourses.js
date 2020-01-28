@@ -36,7 +36,7 @@ export default function Current() {
     
   //get Student data
   function getStudents(res){
-    fetch("http://localhost:6000/students/get", {
+    fetch("http://localhost:5000/students/"+ selectedCourse, {
         method: "GET"
     })
     .then((res)=> { return res.json();
@@ -60,7 +60,7 @@ export default function Current() {
 
     const [classRoster, setClassRoster] = useState('');
     
-//set up variables for deconstruction
+//set up variables for Classes deconstruction
     let Course;
     let courseList;
     let classesList;
@@ -79,7 +79,7 @@ if(classes != "") {
         classStartDate = item.StartDate;
         classCampus = item.Campus;
         
-        Course = className+classStartDate+classCampus;
+        Course = className+" "+classStartDate+" "+classCampus;
       
         return(
     <option value={Course}>{Course}</option>
@@ -88,6 +88,11 @@ if(classes != "") {
 }   
 
 
+const changeCourse = (e) => {
+    setSelectedCourse(e.target.value)
+                        getStudents()
+}
+
 
 //Select Class Drop Down
 
@@ -95,13 +100,19 @@ if(classes != "") {
         <div>
             <div>
             <h1>Lets see if this works. </h1>
+            <div>
             <form>
-            <label>Course</label>
-                    <select onChange={(e)=> setSelectedCourse(e.target.value)}>
+            <label>Course</label> 
+                    <select onChange={
+                        changeCourse
+                    }>
                         <option value="default">Select Class</option>
                         {classesList}
                      </select>
+                     
             </form>
+           
+            </div>
             <Modal/>
             <ClassModal/>
             </div>

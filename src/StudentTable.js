@@ -28,6 +28,32 @@ const rows = [
 
 export default function SimpleTable(props) {
 
+
+let tablerows;
+let studentImage;
+let studentName;
+let Course;
+let studentSurvey;
+
+
+if(props.classList != "") {
+tablerows = props.classList.map((item, i) => {
+  studentImage = item.studentImage;
+  studentName = item.studentName;
+  Course = item.Course;
+  studentSurvey = item.studentSurvey;
+  return(
+    <TableRow>
+<TableCell>{studentImage}</TableCell>
+  <TableCell>{studentName}</TableCell>
+  <TableCell>{Course}</TableCell>
+  <TableCell>{studentSurvey}</TableCell>
+    </TableRow>
+  )
+
+})
+}
+
 console.log(props.classList)
 
   
@@ -41,15 +67,15 @@ console.log(props.classList)
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Image</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell >Course</TableCell>
+            <TableCell >Survey</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {tablerows}
+          {/* {rows.map(row => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
@@ -59,7 +85,7 @@ console.log(props.classList)
               <TableCell align="right">{row.carbs}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
       </Table>
     </TableContainer>
