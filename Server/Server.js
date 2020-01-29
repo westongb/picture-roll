@@ -82,6 +82,16 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
         }})   
 })
 
+app.get("/students", (req,res) =>{
+    db2.collection('Students').find({}).toArray(
+        function(err, data){
+        if (err) {return console.log(err)}
+        else { 
+      console.log(data)
+            res.json(data)
+        }})   
+})
+
 app.post("/students/new", (req,res) => {
     console.log(req.body)
     db2.collection('Students').insertOne(req.body, (err, response) => {

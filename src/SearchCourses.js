@@ -36,7 +36,7 @@ export default function Current() {
     
   //get Student data
   function getStudents(res){
-    fetch("http://localhost:5000/students/Course/"+ selectedCourse, {
+    fetch("http://localhost:5000/students", {
         method: "GET"
     })
     .then((res)=> { return res.json();

@@ -37,9 +37,9 @@ export default function AddStudent() {
                 'Content-Type': 'application/json'
             },
             body:JSON.stringify({
-                Student_Name: studentName,
-                Student_Course: studentCourse,
-                Student_Survey: studentSurvey
+                studentName: studentName,
+                course: studentCourse,
+                studentSurvey: studentSurvey
             })
             
         }).then(
