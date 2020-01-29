@@ -72,7 +72,7 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
 )
   });
 
-  app.get("/students/:course", (req,res) =>{
+  app.get("/students/Course/:course", (req,res) =>{
     db2.collection('Students').find({"Course":req.params.course}).toArray(
         function(err, data){
         if (err) {return console.log(err)}
@@ -82,7 +82,7 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
         }})   
 })
 
-app.post("/students/post", (req,res) => {
+app.post("/students/new", (req,res) => {
     console.log(req.body)
     db2.collection('Students').insertOne(req.body, (err, response) => {
        

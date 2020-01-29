@@ -36,7 +36,7 @@ export default function Current() {
     
   //get Student data
   function getStudents(res){
-    fetch("http://localhost:5000/students/"+ selectedCourse, {
+    fetch("http://localhost:5000/students/Course/"+ selectedCourse, {
         method: "GET"
     })
     .then((res)=> { return res.json();
@@ -79,7 +79,7 @@ if(classes != "") {
         classStartDate = item.StartDate;
         classCampus = item.Campus;
         
-        Course = className+" "+classStartDate+" "+classCampus;
+        Course = className+"-"+classStartDate+"-"+classCampus;
       
         return(
     <option value={Course}>{Course}</option>
@@ -88,9 +88,9 @@ if(classes != "") {
 }   
 
 
-const changeCourse = (e) => {
-    setSelectedCourse(e.target.value)
-                        getStudents()
+const changeCourse = async(e) => {
+    await setSelectedCourse(e.target.value)
+                       await getStudents()
 }
 
 

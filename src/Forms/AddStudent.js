@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './Add_Class.css';
 import { PromiseProvider } from "mongoose";
 
+
 export default function AddStudent() {
 
     useEffect(() => {
@@ -20,13 +21,31 @@ export default function AddStudent() {
             setClasses(res)
             return console.log(res)
         },
-        // (error) => {
-        //     setClasses("error")
-        // }
-        )
+)
     }
 
-    
+ const submitHandle =(e) => {
+    e.preventDefault();
+     postStudent(e);
+ }
+
+
+    function postStudent(res){
+        fetch("http://localhost:5000/students/new", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                Student_Name: studentName,
+                Student_Course: studentCourse,
+                Student_Survey: studentSurvey
+            })
+            
+        }).then(
+            res=> console.log("this Worked")
+        )
+    }
 
     const [classes, setClasses] = useState("")
     let Course;
@@ -36,10 +55,14 @@ export default function AddStudent() {
     let classStartDate;
     let className;
     let courseText;
+
+
     //deconstruct Get
 
+ 
+
 if(classes != "") {
-    console.log(classes);
+  
     classesList = classes.map( (item,i) => {
         let itemIdex = item[i];
         className = item.ClassName;
@@ -47,7 +70,7 @@ if(classes != "") {
         classCampus = item.Campus;
         
         Course = className+classStartDate+classCampus;
-        console.log(Course)
+       
         return(
     
     <option value={Course}>{Course}</option>
@@ -56,46 +79,24 @@ if(classes != "") {
     })
 }   
 
+const [studentSurvey, setStudentSurvey] = useState("");
 const [studentName, setStudentName] = useState("");
 const [studentCourse, setStudentCourse] = useState("");
-// function myFunction(){
-//     var x = document.getElementById("myFile");
-//     var txt = "";
-//     if ('files' in x) {
-//       if (x.files.length == 0) {
-//         txt = "Select one or more files.";
-//       } else {
-//         for (var i = 0; i < x.files.length; i++) {
-//           txt += "<br><strong>" + (i+1) + ". file</strong><br>";
-//           var file = x.files[i];
-//           if ('name' in file) {
-//             txt += "name: " + file.name + "<br>";
-//           }
-//           if ('size' in file) {
-//             txt += "size: " + file.size + " bytes <br>";
-//           }
-//         }
-//       }
-//     } 
-//     else {
-//       if (x.value == "") {
-//         txt += "Select one or more files.";
-//       } else {
-//         txt += "The files property is not supported by your browser!";
-//         txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
-//       }
-//     }
-//     document.getElementById("demo").innerHTML = txt;
-//   }
 
 
-console.log(classes)
-    // console.log(classses)
+let studentData = {
+    "Student_Name": studentName,
+    "Student_Course": studentCourse,
+    "Student_Survey": studentSurvey
+}
+
+
+    
 
     return(
         <div>
             <h1>Add A New Student</h1>
-            <form>
+            <form onSubmit={submitHandle}>
             <label>Student Picture</label>
                 <input type="file"></input>
                 <br></br>
@@ -103,15 +104,15 @@ console.log(classes)
                 <input type="text" value={studentName} onChange={(e)=>{setStudentName(e.target.value)}}/>
                 <br></br>
                 <label>Course</label>
-                    <select value={setStudentCourse} onChange={(e)=> {setStudentCourse(e.target.value)}}>
+                    <select options={Course} value={studentCourse} onChange={(e)=> {setStudentCourse(e.target.value)}}>
                         <option>Select Course</option>
                         {classesList}
                     </select>
                 <br></br>
                 <label>New Student Survey</label>
-                <input type="text" ></input>
+                <input type="text" value={studentSurvey} onChange={(e)=>{setStudentSurvey(e.target.value)}}/> 
                 <br></br>
-                <button>Submit</button>
+                <button type='submit'>Submit</button>
             </form>
         </div>
     );
