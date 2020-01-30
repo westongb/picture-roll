@@ -98,18 +98,18 @@ let studentData = {
             <h1>Add A New Student</h1>
             <form onSubmit={submitHandle}>
             <label>Student Picture</label>
-                <input type="file"></input>
+                <input type="file" className='formLabel'></input>
                 <br></br>
-                <label>Student Name</label>
+                <label className='formLabel'>Student Name</label>
                 <input type="text" value={studentName} onChange={(e)=>{setStudentName(e.target.value)}}/>
                 <br></br>
-                <label>Course</label>
+                <label className='formLabel'>Course</label>
                     <select options={Course} value={studentCourse} onChange={(e)=> {setStudentCourse(e.target.value)}}>
                         <option>Select Course</option>
                         {classesList}
                     </select>
                 <br></br>
-                <label>New Student Survey</label>
+                <label className='formLabel'>New Student Survey</label>
                 <input type="text" value={studentSurvey} onChange={(e)=>{setStudentSurvey(e.target.value)}}/> 
                 <br></br>
                 <button type='submit'>Submit</button>

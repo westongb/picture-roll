@@ -72,8 +72,9 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
 )
   });
 
-  app.get("/students/Course/:course", (req,res) =>{
-    db2.collection('Students').find({"Course":req.params.course}).toArray(
+  app.get("/students/:course", (req,res) =>{
+      console.log(req.params.course);
+    db2.collection('Students').find({"course":req.params.course}).toArray(
         function(err, data){
         if (err) {return console.log(err)}
         else { 

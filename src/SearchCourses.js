@@ -35,21 +35,7 @@ export default function Current() {
 
     
   //get Student data
-  function getStudents(res){
-    fetch("http://localhost:5000/students", {
-        method: "GET"
-    })
-    .then((res)=> { return res.json();
-    })
-    .then((res) =>{
-        setClassRoster(res)
-        return console.log(res)
-    },
-    // (error) => {
-    //     setClasses("error")
-    // }
-    )
-  }
+
     
 //set up State
     const [selectedCourse, setSelectedCourse] = useState()
@@ -61,7 +47,7 @@ export default function Current() {
     const [classRoster, setClassRoster] = useState('');
     
 //set up variables for Classes deconstruction
-    let Course;
+    let course;
     let courseList;
     let classesList;
     let classCampus;
@@ -79,19 +65,43 @@ if(classes != "") {
         classStartDate = item.StartDate;
         classCampus = item.Campus;
         
-        Course = className+"-"+classStartDate+"-"+classCampus;
+        course = className+classStartDate+classCampus;
       
         return(
-    <option value={Course}>{Course}</option>
+    <option value={course}>{course}</option>
         )
     })
 }   
 
+let searchCourse = JSON.stringify(course);
+
+function getStudents(res){
+    console.log(course)
+   fetch('http://localhost:5000/students/'+selectedCourse, {
+       method: "GET"
+   })
+   .then((res)=> { return res.json();
+   })
+   .then((res) =>{
+       setClassRoster(res)
+       return console.log(res)
+   },
+   // (error) => {
+   //     setClasses("error")
+   // }
+   )
+ }
 
 const changeCourse = async(e) => {
-    await setSelectedCourse(e.target.value)
-                       await getStudents()
-}
+    await setTimeout(setSelectedCourse(e.target.value),2000);
+                }
+
+const loadList = async (e) => {
+    e.preventDefault();
+    await setClassRoster("");
+   await getStudents();
+   await setSelectedCourse("");
+}       
 
 
 //Select Class Drop Down
@@ -101,7 +111,7 @@ const changeCourse = async(e) => {
             <div>
             <h1>Lets see if this works. </h1>
             <div>
-            <form>
+            <form onSubmit={loadList}>
             <label>Course</label> 
                     <select onChange={
                         changeCourse
@@ -109,7 +119,7 @@ const changeCourse = async(e) => {
                         <option value="default">Select Class</option>
                         {classesList}
                      </select>
-                     
+                     <button type="submit">Find</button>
             </form>
            
             </div>
