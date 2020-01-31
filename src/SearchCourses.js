@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Modal from "./Forms/StudentsModal";
 import ClassModal from "./Forms/ClassModal";
 import ClassRoster from "./StudentTable";
+import "./Forms/Add_Class";
 
 export default function Current() {
 
@@ -75,7 +76,7 @@ if(classes != "") {
 
 let searchCourse = JSON.stringify(course);
 
-function getStudents(res){
+function getStudentsByCourse(res){
     console.log(course)
    fetch('http://localhost:5000/students/'+selectedCourse, {
        method: "GET"
@@ -92,6 +93,26 @@ function getStudents(res){
    )
  }
 
+
+ function getStudents(res){
+    console.log(studentName);
+   fetch('http://localhost:5000/students/search/'+studentName, {
+       method: "GET"
+   })
+   .then((res)=> { return res.json();
+   })
+   .then((res) =>{
+       setClassRoster(res)
+       return console.log(res)
+   },
+   // (error) => {
+   //     setClasses("error")
+   // }
+   )
+ }
+
+const [studentName, setStudentName] = useState()
+ 
 const changeCourse = async(e) => {
     await setTimeout(setSelectedCourse(e.target.value),2000);
                 }
@@ -99,9 +120,16 @@ const changeCourse = async(e) => {
 const loadList = async (e) => {
     e.preventDefault();
     await setClassRoster("");
-   await getStudents();
+   await getStudentsByCourse();
    await setSelectedCourse("");
 }       
+
+const loadListStudent = async (e) => {
+    e.preventDefault();
+   await getStudents();
+   
+}       
+
 
 
 //Select Class Drop Down
@@ -111,7 +139,7 @@ const loadList = async (e) => {
             <div>
             <h1>Lets see if this works. </h1>
             <div>
-            <form onSubmit={loadList}>
+            <form onSubmit={loadList} className="classForm">
             <label>Course</label> 
                     <select onChange={
                         changeCourse
@@ -120,15 +148,21 @@ const loadList = async (e) => {
                         {classesList}
                      </select>
                      <button type="submit">Find</button>
+                     <ClassModal/>
             </form>
-           
+           <form className="classForm" onSubmit={loadListStudent}>
+                    <label>Student</label>
+                    <input type="text" className="studentSearch" value={studentName} onChange={(e)=> setStudentName(e.target.value)}></input>
+                    <button type="submit">Find</button>
+                    <Modal/>
+           </form>
             </div>
-            <Modal/>
-            <ClassModal/>
+            
+           
             </div>
             <br></br>
             <ClassRoster classList={classRoster}/>
-        </div>
+        </div> 
     );
 }
 

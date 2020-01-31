@@ -5,9 +5,20 @@
 form {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 35%;
     justify-content: center;
-    margin-left:25%;
-    margin-right: 25%;
+    margin-left:32.5%;
+    margin-right: 32.5%;
     color: white;
+}
+
+.classForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.studentSearch{
+    width: 54.8%;
+    margin-left: 7px;
 }

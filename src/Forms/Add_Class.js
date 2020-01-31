@@ -99,10 +99,14 @@ return(
                 <h1>Add A Class</h1>
                 <br></br>
                 <lable className='formLabel'>Class Name</lable>
-                <input type='text'
-                    value={className}
+                <select option="option" value={className}
                     onChange={e => setClassName(e.target.value)}
-                ></input>
+                >
+                    <option>Full Stack Immersive</option>
+                     <option>Full Stack After Hours LVL1</option>
+                     <option>Full Stack After Hours LVL2</option>
+                     <option>UIUX Design</option>
+                </select>
                 <br></br>
                 <label className='formLabel'>Start Date</label>
                 <input 
@@ -119,11 +123,15 @@ return(
                 ></input>
                 <br></br>
                 <label className='formLabel'>Campus</label>
-                <input 
-                type='text'
+                <select 
+                
                 value={classCampus}
                 onChange={e => setClassCampus(e.target.value)}
-                ></input>
+                    
+                >
+                    <option>Draper</option>
+                    <option>SLC</option>
+                </select>
                 <button>Submit</button>
             </form>
 
