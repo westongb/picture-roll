@@ -5,6 +5,8 @@ import Main from "./Main";
 import "./App.css";
 import AddClass from "./Forms/Add_Class";
 import AddStudent from "./Forms/AddStudent";
+import ClassList from "./Forms/ClassList";
+import './Menu.css';
 
 class Menu extends Component {
     constructor (props) {
@@ -23,15 +25,15 @@ render(props) {
               </span>
                 <ul id="navigation">
                 <li>
-                <Link to="/">Home</Link>
+                <Link to="/" className='menuLink'>Home</Link>
                 </li>
                 <li>
-              <Link to="/current">Search Courses</Link>
-              </li>
-              {/* <li>
-              <Link to="/addclass">Add Courses</Link>
+              <Link to="/current" className='menuLink'>Course Roster</Link>
               </li>
               <li>
+              <Link to="/CourseList" className='menuLink'>Courses List</Link>
+              </li>
+              {/* <li>
               <Link to="/addstudent">Add Student</Link>
               </li> */}
               </ul>
@@ -39,10 +41,9 @@ render(props) {
           </nav>
           <Route exact path="/" component={Main}/>
           <Route path="/current" component={Current}/>
-          <Route path="/addclass" component={AddClass}/>
+          <Route path="/CourseList" component={ClassList}/>
           <Route path="/addstudent" component={AddStudent}/>
         </div>
-    
         </Router>
     );
 }

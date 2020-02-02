@@ -6,12 +6,14 @@ const app = express();
 const app2 = express();
 const port = process.env.PORT || 5000;
 const port2 = process.env.PORT || 8000;
+const fs = require(fs);
 
 var db
 var db2
 
 app.use(cors());
 app.use(bodyParser());
+app.use(express.static('./Public'))
 
 MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.mongodb.net/Classes?retryWrites=true&w=majority',{ useUnifiedTopology: true },(err, client)=> {
     if (err) return console.log(err)
@@ -33,7 +35,7 @@ app.get("/classes/get", (req,res) =>{
         function(err, data){
         if (err) {return err}
         else { 
-      console.log(data)
+    //   console.log(data)
             res.json(data)
         }})   
 })
@@ -78,7 +80,7 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
         function(err, data){
         if (err) {return console.log(err)}
         else { 
-      console.log(data)
+    //   console.log(data)
             res.json(data)
         }})   
 })
@@ -88,7 +90,7 @@ app.get("/students", (req,res) =>{
         function(err, data){
         if (err) {return console.log(err)}
         else { 
-      console.log(data)
+    //   console.log(data)
             res.json(data)
         }})   
 })
@@ -99,7 +101,7 @@ app.get("/students/search/:studentName", (req,res) =>{
         function(err, data){
         if (err) {return console.log(err)}
         else { 
-      console.log(data)
+    //   console.log(data)
             res.json(data)
         }})
 })
@@ -114,7 +116,7 @@ app.post("/students/new", (req,res) => {
         db2.collection('Students').find({}).toArray( (err,data) =>{
             if (err) {return err}
         else { 
-      console.log(data)
+    //   console.log(data)
             res.json(data)
         }})   
     } )
@@ -133,9 +135,35 @@ db2.collection('Students').deleteOne({"_id":req.params._id}
   console.log(data)
         res.json(data)
     }})  
-}
-)
-  });
+})});
+
+
+  app.post("/students/imageFileName", (req,res) => {
+    if (!req.params.files || Object.keys(req.params.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+      }
+    
+      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+      let imageFile = req.files.imageFileName;
+    
+      // Use the mv() method to place the file somewhere on your server
+      imageFile.mv('/Server/Public/filename.jpg', function(err) {
+        if (err)
+          return res.status(500).send(err);
+    
+        res.send('File uploaded!');
+      });
+})
+
+app.get('/Public/JohnDoe.png', (req,res) =>{
+   
+    //   console.log(data)
+            res.sendFile('./Public/JohnDoe.png', { root: __dirname });
+            
+            console.log(res.params)
+      
+})
+
 
 
 

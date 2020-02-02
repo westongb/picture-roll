@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -21,6 +22,20 @@ function createData(name, calories, fat, carbs, protein) {
 
 export default function SimpleTable(props) {
 
+const [defaultImage, setDefaultImage] = useState(null)
+
+  function getImage() {
+    fetch("http://localhost:5000/Public/JohnDoe.png", {
+      method: "GET"
+  })
+  .then((res)=> { return res.file();
+  })
+  .then((res) =>{
+      setDefaultImage(res)
+      return console.log(res)
+  },
+  )
+  }
 
 let tablerows;
 let studentImage;
@@ -35,9 +50,15 @@ tablerows = props.classList.map((item, i) => {
   studentName = item.studentName;
   Course = item.course;
   studentSurvey = item.studentSurvey;
+
+
+
+
+
+
   return(
     <TableRow>
-<TableCell>{studentImage}</TableCell>
+<TableCell><img src={defaultImage} /></TableCell>
   <TableCell>{studentName}</TableCell>
   <TableCell>{Course}</TableCell>
   <TableCell>{studentSurvey}</TableCell>
@@ -55,6 +76,7 @@ console.log(props.classList)
 
   
   const classes = useStyles();
+
 
 
   

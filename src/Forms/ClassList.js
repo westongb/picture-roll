@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import ClassModal from './ClassModal';
 import './Add_Class.css';
 
-export default function AddClass() {
+export default function ClassList () {
 
     useEffect(() => {
         getCourse({})
@@ -60,6 +67,7 @@ export default function AddClass() {
     
 //deconstruct Get
 
+    console.log(classes)
 if(classes != "") {
     
     classesList = classes.map( (item,i) => {
@@ -71,70 +79,31 @@ if(classes != "") {
         Course = liClassName+"-"+liClassStartDate+"-"+liClassCampus;
       
         return(
-                <li>{Course}</li>
+               
+<TableRow>
+<TableCell>{liClassName}</TableCell>
+  <TableCell>{liClassStartDate}</TableCell>
+  <TableCell>{liClassCampus}</TableCell>
+  <TableCell>{
+    <button>Delete</button>
+    }</TableCell>
+  <TableCell>{<button>Update</button>}</TableCell>
+    </TableRow>
         )
     })
 }   
 
-
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-    postCourse();
-    getCourse();
-}
-
-const submitClasses = () => {
-
-
-}
-
-
 return(
+    <div>
+        <h1>Course List</h1>
+        <ClassModal/>
+        <br></br>
         <div>
-            <form
-                className='New_Class_Form'
-                onSubmit={handleSubmit}
-            >
-                <h1>Add A Class</h1>
-                <br></br>
-                <lable className='formLabel'>Class Name</lable>
-                <select option="option" value={className}
-                    onChange={e => setClassName(e.target.value)}
-                >
-                    <option>Full Stack Immersive</option>
-                     <option>Full Stack After Hours LVL1</option>
-                     <option>Full Stack After Hours LVL2</option>
-                     <option>UIUX Design</option>
-                </select>
-                <br></br>
-                <label className='formLabel'>Start Date</label>
-                <input 
-                type='text'
-                value={classStartDate}
-                    onChange={e => setClassStartDate(e.target.value)}
-                ></input>
-                <br></br>
-                <label className='formLabel'>End Date</label>
-                <input 
-                type='text'
-                value={classEndDate}
-                onChange={e => setClassEndDate(e.target.value)}
-                ></input>
-                <br></br>
-                <label className='formLabel'>Campus</label>
-                <select 
-                
-                value={classCampus}
-                onChange={e => setClassCampus(e.target.value)}
-                    
-                >
-                    <option>Draper</option>
-                    <option>SLC</option>
-                </select>
-                <button>Submit</button>
-            </form>
+            <Table>
+                {classesList}
+            </Table>
         </div>
+    </div>
 
 );
 }

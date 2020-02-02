@@ -47,6 +47,8 @@ export default function Current() {
 
     const [classRoster, setClassRoster] = useState('');
     
+    const [studentImage, setStudentImage]= useState('') 
+    
 //set up variables for Classes deconstruction
     let course;
     let courseList;
@@ -111,6 +113,27 @@ function getStudentsByCourse(res){
    )
  }
 
+ 
+ function getStudentsImage(res){
+    console.log(studentName);
+   fetch('./Server/Public/'+studentName+".jpg", {
+       method: "GET"
+   })
+   .then((res)=> { return res.json();
+   })
+   .then((res) =>{
+       setStudentImage(res);
+       return console.log(res)
+   },
+   // (error) => {
+   //     setClasses("error")
+   // }
+   )
+ }
+
+;
+ console.log(studentImage);
+
 const [studentName, setStudentName] = useState()
  
 const changeCourse = async(e) => {
@@ -157,11 +180,9 @@ const loadListStudent = async (e) => {
                     <Modal/>
            </form>
             </div>
-            
-           
             </div>
             <br></br>
-            <ClassRoster classList={classRoster}/>
+            <ClassRoster classList={classRoster} studentImage={studentImage}/>
         </div> 
     );
 }

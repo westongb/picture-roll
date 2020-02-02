@@ -1,0 +1,8 @@
+.menuLink{
+    color: #FFD007;
+
+}
+
+.menuLink:hover {
+    color: white;
+}
