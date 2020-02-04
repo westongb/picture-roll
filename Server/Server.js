@@ -6,7 +6,7 @@ const app = express();
 const app2 = express();
 const port = process.env.PORT || 5000;
 const port2 = process.env.PORT || 8000;
-const fs = require(fs);
+const fs = require('fs');
 
 var db
 var db2
@@ -158,6 +158,7 @@ db2.collection('Students').deleteOne({"_id":req.params._id}
 app.get('/Public/JohnDoe.png', (req,res) =>{
    
     //   console.log(data)
+            
             res.sendFile('./Public/JohnDoe.png', { root: __dirname });
             
             console.log(res.params)

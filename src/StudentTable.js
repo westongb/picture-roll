@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import './Forms/Add_Class.css';
 
 
 const useStyles = makeStyles({
@@ -22,21 +23,26 @@ function createData(name, calories, fat, carbs, protein) {
 
 export default function SimpleTable(props) {
 
+  useEffect(() => {
+    getImage({})
+},[]);
+
 const [defaultImage, setDefaultImage] = useState(null)
 
   function getImage() {
     fetch("http://localhost:5000/Public/JohnDoe.png", {
       method: "GET"
   })
-  .then((res)=> { return res.file();
-  })
-  .then((res) =>{
-      setDefaultImage(res)
-      return console.log(res)
-  },
+  .then(res=> res.blob()
   )
+  .then(images => {
+    // Then create a local URL for that image and print it 
+    url = URL.createObjectURL(images)
+    
+})
   }
 
+let url;
 let tablerows;
 let studentImage;
 let studentName;
@@ -54,11 +60,9 @@ tablerows = props.classList.map((item, i) => {
 
 
 
-
-
   return(
     <TableRow>
-<TableCell><img src={defaultImage} /></TableCell>
+<TableCell><img src="http://localhost:5000/Public/JohnDoe.png" className="studentImage"/></TableCell>
   <TableCell>{studentName}</TableCell>
   <TableCell>{Course}</TableCell>
   <TableCell>{studentSurvey}</TableCell>
