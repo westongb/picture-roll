@@ -8,6 +8,8 @@ const port = process.env.PORT || 5000;
 const port2 = process.env.PORT || 8000;
 const fs = require('fs');
 
+var jwt = require('jsonwebtoken');
+
 var db
 var db2
 
@@ -23,6 +25,8 @@ MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.m
     db2= client.db('ClassDirectory')
     collection = db2.collection("Students")
     console.log("Connected to" + collection)
+    userDb = client.db('UserInfo');
+    collection = userDb.collection('UserInfo');
 
 // db.collection('Classes').find({}).toArray(function(err,res){
 //     if (err) throw err
@@ -166,6 +170,20 @@ app.get('/Public/JohnDoe.png', (req,res) =>{
 })
 
 
+
+
+
+//user login info
+
+app.get("/students/login/:userName", (req,res) =>{
+    userDb.collection('UserInfo').find({userName:req.params.userName}).toArray(
+        function(err, data){
+        if (err) {return console.log(err)}
+        else { 
+    //   console.log(data)
+            res.json(data)
+        }})
+})
 
 
     app.listen(5000, ()=> {
