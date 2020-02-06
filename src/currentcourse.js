@@ -32,7 +32,7 @@ export default function CurrentCourse(props){
 
     var classDate;
     var timeBetweenClasses;
-    
+    var futureDates;
 
    
   
@@ -42,15 +42,11 @@ export default function CurrentCourse(props){
     if(classes != "") {
      const nextClass = classes.map((item, i) => {
          classDate = new Date(item.StartDate)
-        timeBetweenClasses= (Date.now() - classDate.getDate())/3600
-        // if(timeBetweenClasses > 1) {
-        //     Array.value(timeBetweenClasses)
-        // }
-        console.log(timeBetweenClasses)
-        // classDate = classes.StartDate;
-        // let now = Date.now;
-        // timeBetweenClasses = classDate - now;
-        // return console.log(timeBetweenClasses)
+        timeBetweenClasses= Date.parse(classDate) ;  
+        var dateList = Array.from(timeBetweenClasses);
+        futureDates = dateList.filter(dateList => dateList > 1);
+        console.log(futureDates)
+     
      })}
 
   
