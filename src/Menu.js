@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Current from "./SearchCourses";
 import Main from "./Main";
 import "./App.css";
@@ -7,7 +7,7 @@ import AddClass from "./Forms/Add_Class";
 import AddStudent from "./Forms/AddStudent";
 import ClassList from "./Forms/ClassList";
 import './Menu.css';
-import LoginScreen from "./Login";
+import LoginScreen from "./Authorization/Login";
 
 class Menu extends Component {
     constructor (props) {
@@ -43,11 +43,14 @@ render(props) {
               </ul>
             </span>
           </nav>
+          <Switch>
           <Route exact path="/" component={Main}/>
           <Route path="/current" component={Current}/>
           <Route path="/CourseList" component={ClassList}/>
           <Route path="/addstudent" component={AddStudent}/>
           <Route path="/login" component={LoginScreen}/>
+          <Route path="*" component={()=> <h1>404 Not Found</h1>}/>
+          </Switch>
         </div>
         </Router>
     );

@@ -34,6 +34,24 @@ MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.m
 // })
 
 
+function verifyToken(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+    if(typeof bearerHeader !=='undefined'){
+        const bearer = bearerHeader.split('');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        res.sendStatue(403)
+    }
+}
+
+// jwt.sign({user}, 'secretkey', (err, token) => {
+//     res.json({
+//         token
+//     })
+// })
+
 app.get("/classes/get", (req,res) =>{
     db.collection('Classes').find({}).toArray(
         function(err, data){
@@ -59,7 +77,6 @@ app.post("/classes/post", (req,res) => {
     } )
 
 })
-
 
 
 app.delete("/classes/delete/:_id", (req, res) => {

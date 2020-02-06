@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './Add_Class.css';
 import { StyledDropZone } from 'react-drop-zone';
 import 'react-drop-zone/dist/styles.css';
