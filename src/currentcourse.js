@@ -50,14 +50,18 @@ export default function CurrentCourse(props){
 
             return timeBetweenClasses
         } 
-        return null
-     })
+        return 0
+     }).filter (item => item !== 0).sort( function (a,b) {
+        return a-b })
      console.log(nextClass)
         return nextClass
+           
+     
         
     }
   
-     
+    
+   
 
     return(
         <div id="currentCourse">
