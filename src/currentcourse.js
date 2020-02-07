@@ -33,23 +33,31 @@ export default function CurrentCourse(props){
     var classDate;
     var timeBetweenClasses;
     var futureDates;
-
+    var nextClass;
    
   
     var i;
     // console.log(classes)
 
     if(classes != "") {
-     const nextClass = classes.map((item, i) => {
+     nextClass = classes.map((item, i) => {
          classDate = new Date(item.StartDate)
         timeBetweenClasses= Date.parse(classDate) ;  
-        var dateList = Array.from(timeBetweenClasses);
-        futureDates = dateList.filter(dateList => dateList > 1);
-        console.log(futureDates)
-     
-     })}
+        // var dateList = Array.from(timeBetweenClasses);
+        // futureDates = dateList.filter(dateList => dateList > 1);
+        // console.log(timeBetweenClasses)
+        if(timeBetweenClasses > 1) {
 
+            return timeBetweenClasses
+        } 
+        return null
+     })
+     console.log(nextClass)
+        return nextClass
+        
+    }
   
+     
 
     return(
         <div id="currentCourse">
