@@ -26,11 +26,11 @@ ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate vel
          Current Courses
        </h2>
        <div id="currentCourse">
-            <CurrentCourse image='https://mlsvc01-prod.s3.amazonaws.com/f00d6b51601/8bfbe04b-f7f5-4fcb-91e2-6a27f111aa71.jpg' Course='Draper'/>
+            <CurrentCourse image='https://mlsvc01-prod.s3.amazonaws.com/f00d6b51601/8bfbe04b-f7f5-4fcb-91e2-6a27f111aa71.jpg' Campus='Draper'/>
        </div>
        <br></br>
        <div id="currentCourse">
-            <CurrentCourse image='https://mlsvc01-prod.s3.amazonaws.com/f00d6b51601/37a332d9-7b5c-4460-8ccb-33ee61b34fa8.jpg' Course='Salt Lake City'/>
+            <CurrentCourse image='https://mlsvc01-prod.s3.amazonaws.com/f00d6b51601/37a332d9-7b5c-4460-8ccb-33ee61b34fa8.jpg' Campus='SLC'/>
        </div>
      </body>
      <footer>

@@ -62,6 +62,8 @@ app.get("/classes/get", (req,res) =>{
         }})   
 })
 
+
+
 app.post("/classes/post", (req,res) => {
     console.log(req.body)
     db.collection('Classes').insertOne(req.body, (err, response) => {
@@ -100,6 +102,17 @@ db.collection('Classes').deleteOne({"_id":req.params._id}
     db2.collection('Students').find({"course":req.params.course}).toArray(
         function(err, data){
         if (err) {return console.log(err)}
+        else { 
+    //   console.log(data)
+            res.json(data)
+        }})   
+})
+
+
+app.get("/classes/:Campus", (req,res) =>{
+    db.collection('Classes').find({"Campus": req.params.Campus}).toArray(
+        function(err, data){
+        if (err) {return err}
         else { 
     //   console.log(data)
             res.json(data)
