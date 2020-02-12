@@ -8,9 +8,15 @@ export default function CurrentCourse(props){
     useEffect(() => {
         
          getCourse();
-         getCurrentCourse();
+        //  getCurrentCourse();
     },[]);
 
+    //set up state variables
+   const [classes, setClasses] = useState('')
+
+   const[time, setTime] = useState()
+
+   const [displayClass, setDisplayClass] = useState()
 
 //fetch data for classes
 
@@ -23,9 +29,10 @@ export default function CurrentCourse(props){
         })
         .then((res) =>{
             setClasses(res);
+           
         },
         )}
-
+        
     
 //fetch specific class with the most recent class date
        function getCurrentCourse(res) {
@@ -39,12 +46,7 @@ export default function CurrentCourse(props){
         })}
    
 
-//set up state variables
-   const [classes, setClasses] = useState('')
 
-    const[time, setTime] = useState()
-
-    const [displayClass, setDisplayClass] = useState()
 
 
 //set up local variables
@@ -54,11 +56,11 @@ export default function CurrentCourse(props){
     var nextClass;
     var ms ;
     var dateFormat ;
-    var formatted ;
    
-  
+    var formatted ;
     var i;
-
+    console.log(classes)
+// const displayNextClass = classes.filter(function (classes) {return classes.StartDate === futureDates});
      
 //map over array to isolate next class date
     if(classes != "") {
@@ -81,10 +83,10 @@ export default function CurrentCourse(props){
         dateFormat = "m-d-Y ";
         futureDates = format(ms, dateFormat);
         console.log(futureDates)
-        return nextClass
+        return futureDates
     } 
     
-
+    
 //format date function
 
     function toDate(date) {
@@ -108,7 +110,15 @@ export default function CurrentCourse(props){
           .replace(/d/gm, ('0' + (d.getDate() + 1)).substr(-2))
       }    
   
-   
+      console.log(nextClass)
+     
+    //   displayNextClass = classes.filter(classes.StartDate === {futureDates})
+      
+    
+      
+      
+
+
 
     
     return(

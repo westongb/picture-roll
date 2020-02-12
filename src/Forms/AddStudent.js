@@ -9,7 +9,8 @@ import DropZone from 'react-drop-zone';
 export default function AddStudent() {
 
     useEffect(() => {
-        getCourse({})
+        getCourse({});
+        getSignedRequest();
        
     },[]);
 
@@ -23,27 +24,29 @@ const [selectedFile, setSelectedFile] = useState(null);
 
 //form data format and fetch
     const formData= new FormData();
-    const fileField = document.querySelector('input[type = "file"]');
-
-    formData.append('filename',selectedFile)
+   
+    if ( selectedFile !== null ) {
+    formData.append('filename',selectedFile, selectedFile.name)
+    }
+  
 
     function submitFile (res, req) {
-        fetch('https://localhost5000/students/imageFileName',{
-            method:'PUT',
+        fetch('https://localhost5000/profile-img-upload',{
+            method:'Post',
             headers: {
-                'Content-Type': 'file'
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
             },
             body: formData
         })
-        .then((res)=> res.json() )
-        .then ((res)=> {
-            console.log('Success');
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
         })
-        .catch((error) => {
-            console.log('Error')
+        .catch(error => {
+          console.error(error)
         })
-    }
-
+      }
+    
     function getCourse(res){
         fetch("http://localhost:5000/classes/get", {
             method: "GET"
@@ -80,6 +83,19 @@ const [selectedFile, setSelectedFile] = useState(null);
             res=> console.log("this Worked")
         )
     }
+
+    
+function getSignedRequest(selectedFile) {
+    return fetch(`/sign-s3`,{
+        method: "GET"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+      });
+  }
 
 //define Variables for Deconstruction
 

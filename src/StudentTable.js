@@ -42,12 +42,17 @@ const [defaultImage, setDefaultImage] = useState(null)
 })
   }
 
+
+
+
 let url;
 let tablerows;
 let studentImage;
 let studentName;
 let Course;
 let studentSurvey;
+
+const imageURL = `https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentName}.jpg`
 
 
 if(props.classList != "") {
@@ -62,7 +67,7 @@ tablerows = props.classList.map((item, i) => {
 
   return(
     <TableRow>
-<TableCell><img src="http://localhost:5000/Public/JohnDoe.png" className="studentImage"/></TableCell>
+<TableCell><img src={`https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentName}.jpg`} className="studentImage"/></TableCell>
   <TableCell>{studentName}</TableCell>
   <TableCell>{Course}</TableCell>
   <TableCell>{studentSurvey}</TableCell>
