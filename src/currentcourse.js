@@ -5,10 +5,11 @@ import './currentcourse.css';
 export default function CurrentCourse(props){
 
 
-    useEffect(async() => {
-        await getCourse();
-        await getCurrentCourse();
-      },[]);
+    useEffect(() => {
+        
+         getCourse();
+         getCurrentCourse();
+    },[]);
 
 
 //fetch data for classes
