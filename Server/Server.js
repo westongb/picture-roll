@@ -119,6 +119,19 @@ app.get("/classes/:Campus", (req,res) =>{
         }})   
 })
 
+app.get("/classes/:Campus/:StartDate", (req,res) =>{
+    db.collection('Classes').find({
+        "Campus": req.params.Campus,
+        "StartDate": req.params.StartDate
+}).toArray(
+        function(err, data){
+        if (err) {return err}
+        else { 
+    //   console.log(data)
+            res.json(data)
+        }})   
+})
+
 app.get("/students", (req,res) =>{
     db2.collection('Students').find({}).toArray(
         function(err, data){

@@ -4,15 +4,16 @@ import './currentcourse.css';
 
 export default function CurrentCourse(props){
 
-    useEffect(() => {
-        getCourse({});
-    },[]);
 
-   const [classes, setClasses] = useState('')
-
-    const[time, setTime] = useState()
+    useEffect(async() => {
+        await getCourse();
+        await getCurrentCourse();
+      },[]);
 
 
+//fetch data for classes
+
+//fetch list of classes
     function getCourse(res){
         fetch("http://localhost:5000/classes/"+props.Campus, {
             method: "GET"
@@ -21,18 +22,34 @@ export default function CurrentCourse(props){
         })
         .then((res) =>{
             setClasses(res);
-         
-
         },
-        // (error) => {
-        //     setClasses("error")
-        // }
-        )
-    }
+        )}
 
+    
+//fetch specific class with the most recent class date
+       function getCurrentCourse(res) {
+        fetch("http://localhost:5000/classes/"+props.Campus + "/" + futureDates, {
+            method: "GET"
+        })
+        .then((res)=> { return res.json();
+        })
+        .then((res) =>{
+            setDisplayClass(res);
+        })}
+   
+
+//set up state variables
+   const [classes, setClasses] = useState('')
+
+    const[time, setTime] = useState()
+
+    const [displayClass, setDisplayClass] = useState()
+
+
+//set up local variables
     var classDate;
     var timeBetweenClasses;
-    var futureDates;
+    var futureDates ;
     var nextClass;
     var ms ;
     var dateFormat ;
@@ -40,37 +57,35 @@ export default function CurrentCourse(props){
    
   
     var i;
-    // console.log(classes)
 
-    
      
-   
-
+//map over array to isolate next class date
     if(classes != "") {
      nextClass = classes.map((item, i) => {
+
+    //identify class start date
          classDate = new Date(item.StartDate)
         timeBetweenClasses= Date.parse(classDate) - Date.now();  
-        // var dateList = Array.from(timeBetweenClasses);
-        // futureDates = dateList.filter(dateList => dateList > 1);
-        // console.log(timeBetweenClasses)
-        if(timeBetweenClasses > 1) {
-
+         if(timeBetweenClasses > 1) {
+//find time between start dates and today to find next starting class
             return timeBetweenClasses + Date.now()
         } 
         return 0
+        //remove classes that have already started and sort from soonest to latest
      }).filter (item => item !== 0).sort( function (a,b) {
         return a-b })
-        ms = nextClass;
-        dateFormat = "Y-m-d H:i:s.v";
-        formatted = format(ms, dateFormat);
-        console.log(formatted);
 
-
-     console.log(nextClass);
+//run format date formula from MS to text short date
+        ms = nextClass[0];
+        dateFormat = "m-d-Y ";
+        futureDates = format(ms, dateFormat);
+        console.log(futureDates)
         return nextClass
-        
-    }
-  
+    } 
+    
+
+//format date function
+
     function toDate(date) {
         if (date === void 0) {
           return new Date(0);
@@ -90,21 +105,11 @@ export default function CurrentCourse(props){
           .replace(/Y/gm, d.getFullYear().toString())
           .replace(/m/gm, ('0' + (d.getMonth() + 1)).substr(-2))
           .replace(/d/gm, ('0' + (d.getDate() + 1)).substr(-2))
-          .replace(/H/gm, ('0' + (d.getHours() + 0)).substr(-2))
-          .replace(/i/gm, ('0' + (d.getMinutes() + 0)).substr(-2))
-          .replace(/s/gm, ('0' + (d.getSeconds() + 0)).substr(-2))
-          .replace(/v/gm, ('0000' + (d.getMilliseconds() % 1000)).substr(-3));
-      }
-      //TEST
+      }    
+  
+   
 
-
-      
-
-
-
-
-
-
+    
     return(
         <div id="currentCourse">
             <div>
