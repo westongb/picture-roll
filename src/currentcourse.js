@@ -83,7 +83,18 @@ export default function CurrentCourse(props){
         dateFormat = "m-d-Y ";
         futureDates = format(ms, dateFormat);
         console.log(futureDates)
-        return futureDates
+          
+    return(
+        <div id="currentCourse">
+            <div>
+            <h1>{props.Course}</h1>
+            <img id="locationImage" src={props.image}></img>
+            </div>
+            <span>Current Class dates</span>
+            <span>{futureDates}</span>
+        
+        </div>
+    );
     } 
     
     
@@ -118,19 +129,11 @@ export default function CurrentCourse(props){
       
       
 
+return <div>
+    {nextClass}
+</div>
 
-
-    
-    return(
-        <div id="currentCourse">
-            <div>
-            <h1>{props.Course}</h1>
-            <img id="locationImage" src={props.image}></img>
-            </div>
-            <span>Current Class dates</span>
-            <span>Current Class dates</span>
-        </div>
-    );
+  
 
 }
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import '../loginScreen.css'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import '../loginScreen.css'
 
-export default function LoginScreen(){
+export default function CreateUser(){
 
 
 const [userName, setUserName] = useState('');
@@ -16,7 +16,7 @@ const [password, setPassword] = useState('');
 
 return (
     <div className='loginBox'>
-        <h1>Login</h1>
+        <h1>Create User</h1>
         <br></br>
             <form className='loginForm'>
              <lable>Username/Email Address</lable>
@@ -25,10 +25,7 @@ return (
             <label>Password </label>
         <input type='password' value={password} onChange={(e)=> setPassword(e.target.value)}></input>
     </form>
-    <br></br>
-    <button ><a href="https://localhost:3000/createuser">Create User</a></button>
     </div>
-    
 )
 
 }

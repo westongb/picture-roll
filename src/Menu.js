@@ -8,6 +8,7 @@ import AddStudent from "./Forms/AddStudent";
 import ClassList from "./Forms/ClassList";
 import './Menu.css';
 import LoginScreen from "./Authorization/Login";
+import CreateUser from "./Authorization/CreateUser";
 
 class Menu extends Component {
     constructor (props) {
@@ -36,6 +37,9 @@ render(props) {
               </li>
               <li>
               <Link to="/login" className='menuLink'>Login</Link>
+              <li>
+                <Link to="/createuser" className='menuLink'>CreateUser</Link>
+                </li>
               </li>
               {/* <li>
               <Link to="/addstudent">Add Student</Link>
@@ -50,6 +54,7 @@ render(props) {
           <Route path="/addstudent" component={AddStudent}/>
           <Route path="/login" component={LoginScreen}/>
           <Route path="*" component={()=> <h1>404 Not Found</h1>}/>
+          <Route path="/createuser" component={CreateUser}/>
           </Switch>
         </div>
         </Router>
