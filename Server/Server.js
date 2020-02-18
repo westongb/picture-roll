@@ -224,6 +224,21 @@ app.get('/Public/JohnDoe.png', (req,res) =>{
       
 })
 
+app.post("/UserInfo/new", (req,res) => {
+    console.log(req.body)
+    userDb.collection('UserInfo').insertOne(req.body, (err, response) => {
+       
+        if (err) throw err;
+        // console.log(response)
+        db2.collection('UserInfo').find({}).toArray( (err,data) =>{
+            if (err) {return err}
+        else { 
+    //   console.log(data)
+            res.json(data)
+        }})   
+    } )
+
+})
 
 
 
