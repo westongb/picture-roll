@@ -27,7 +27,7 @@ return (
         <input type='password' value={password} onChange={(e)=> setPassword(e.target.value)}></input>
     </form>
     <br></br>
-    <button ><a href="https://localhost:3000/Login/CreateUser">Create User</a></button>
+    <button ><Link to="/login/CreateUser" className='menuLink'>CreateUser</Link></button>
     </div>
     
 )

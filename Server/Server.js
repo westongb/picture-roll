@@ -36,7 +36,7 @@ MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.m
     db2= client.db('ClassDirectory')
     collection = db2.collection("Students")
     console.log("Connected to" + collection)
-    userDb = client.db('UserInfo');
+    userDb = client.db('ClassDirectory');
     collection = userDb.collection('UserInfo');
 
 // db.collection('Classes').find({}).toArray(function(err,res){
