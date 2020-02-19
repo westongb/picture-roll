@@ -13,6 +13,7 @@ const multer = require('multer');
 const path = require( 'path' );
 const url = require('url');
 const bcrypt = require('bcrypt')
+const { check, validationResult} = require("express-validator/check");
 
 var jwt = require('jsonwebtoken');
 
@@ -255,7 +256,7 @@ app.post("/UserInfo/new", async (req,res) => {
 //user login info
 
 app.get("/students/login/:userName", (req,res) =>{
-    userDb.collection('UserInfo').find({userName:req.params.userName}).toArray(
+    userDb.collection('UserInfo').find({UserName:req.params.userName}).toArray(
         function(err, data){
         if (err) {return console.log(err)}
         else { 
@@ -265,22 +266,44 @@ app.get("/students/login/:userName", (req,res) =>{
 })
 
 
-app.post('/login/:userName', async (req, res) => {
-    userDb.collection('UserInfo').find({UserName: req.body.userName}, ()=> {
-        console.log(res)
-        if (!userName) {
-           res.redirect('/home');
+app.post('/login/:userName', async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        })
+    }
+    // let user;
+    try {
+        
+    let user = await userDb.collection('UserInfo').find({"UserName": req.params.userName}).next(
+         async function  (err, data) {
+           
+        if (!err) {
+            await console.log(data.Password)
+            await bcrypt.compare(req.body.password, data.Password, function (err, result) {
+                if (result === true) {
+                   console.log('password match')
+                  
+                } else {
+                  
+                    res.send('Incorrect password');
+                    res.redirect('/');
+                }});
         } else {
-    bcrypt.compare(req.body.password, user.password, function (err, result) {
-        if (result == true) {
-            res.redirect('/');
-        } else {
-            res.send('Incorrect password');
-            res.redirect('/');
-        }});
+                console.log(err)
         }
-    })
-    });
+        res.json(data)
+    }
+    )
+    } catch (errors) {
+        console.error(errors);
+        res.status(500).json({
+            message: "Server Error"
+        })
+    }
+});
+
 //image upload routs and formula
 
 
