@@ -1,11 +1,10 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
-const app2 = express();
 const port = process.env.PORT || 5000;
-const port2 = process.env.PORT || 8000;
 const fs = require('fs');
 const aws = require( 'aws-sdk' );
 const multerS3 = require( 'multer-s3' );
@@ -14,8 +13,7 @@ const path = require( 'path' );
 const url = require('url');
 const bcrypt = require('bcrypt')
 const { check, validationResult} = require("express-validator/check");
-
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const s3 = new aws.S3({
 	accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
@@ -266,6 +264,8 @@ app.get("/students/login/:userName", (req,res) =>{
 })
 
 
+//user authentication
+
 app.post('/login/:userName', async (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -273,29 +273,29 @@ app.post('/login/:userName', async (req, res, next) => {
             errors: errors.array()
         })
     }
-    // let user;
     try {
-        
+    //find user   
     let user = await userDb.collection('UserInfo').find({"UserName": req.params.userName}).next(
          async function  (err, data) {
            
         if (!err) {
-            await console.log(data.Password)
+            //compare passwords using bcrypt
             await bcrypt.compare(req.body.password, data.Password, function (err, result) {
                 if (result === true) {
-                   console.log('password match')
-                  
+                    console.log(data)
+                   const accessToken = jwt.sign(data, 'shhhhhh')
+                  res.send({'TokenAuth': accessToken})
                 } else {
-                  
                     res.send('Incorrect password');
-                    res.redirect('/');
+        
                 }});
         } else {
                 console.log(err)
         }
-        res.json(data)
-    }
-    )
+    })
+
+
+
     } catch (errors) {
         console.error(errors);
         res.status(500).json({
