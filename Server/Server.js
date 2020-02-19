@@ -12,6 +12,7 @@ const multerS3 = require( 'multer-s3' );
 const multer = require('multer');
 const path = require( 'path' );
 const url = require('url');
+const bcrypt = require('bcrypt')
 
 var jwt = require('jsonwebtoken');
 
@@ -224,9 +225,17 @@ app.get('/Public/JohnDoe.png', (req,res) =>{
       
 })
 
-app.post("/UserInfo/new", (req,res) => {
-    console.log(req.body)
-    userDb.collection('UserInfo').insertOne(req.body, (err, response) => {
+app.post("/UserInfo/new", async (req,res) => {
+    // console.log(req.body)
+    const hashedPassword = await bcrypt.hash(req.body.Password, 10);
+    console.log(hashedPassword);
+    const user = { FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        EmailAddress: req.body.EmailAddress,
+        UserName: req.body.UserName,
+        Password: hashedPassword}
+    await userDb.collection('UserInfo').insertOne(
+        user, (err, response) => {
        
         if (err) throw err;
         // console.log(response)
@@ -255,6 +264,23 @@ app.get("/students/login/:userName", (req,res) =>{
         }})
 })
 
+
+app.post('/login/:userName', async (req, res) => {
+    userDb.collection('UserInfo').find({UserName: req.body.userName}, ()=> {
+        console.log(res)
+        if (!userName) {
+           res.redirect('/home');
+        } else {
+    bcrypt.compare(req.body.password, user.password, function (err, result) {
+        if (result == true) {
+            res.redirect('/');
+        } else {
+            res.send('Incorrect password');
+            res.redirect('/');
+        }});
+        }
+    })
+    });
 //image upload routs and formula
 
 
