@@ -37,6 +37,7 @@ render(props) {
                 <li>
                 <Link to="/login" className='menuLink'>Login</Link>
                 </li>
+                <button>Logout</button>
                  {/* <li>
                 <Link to="/login/CreateUser" className='menuLink'>CreateUser</Link>
                 </li> */}

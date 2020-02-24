@@ -1,4 +1,4 @@
-require('dotenv').config()
+const dotenv = require('dotenv')
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -24,6 +24,8 @@ const s3 = new aws.S3({
 var db
 var db2
 
+dotenv.config({path: './.env'})
+
 app.use(cors());
 app.use(bodyParser());
 app.use(express.static('./Public'))
@@ -45,17 +47,7 @@ MongoClient.connect('mongodb+srv://Westongb:Abc123890@mature-masculinity-nteci.m
 // })
 
 
-function verifyToken(req, res, next) {
-    const bearerHeader = req.headers['authorization'];
-    if(typeof bearerHeader !=='undefined'){
-        const bearer = bearerHeader.split('');
-        const bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
-    } else {
-        res.sendStatue(403)
-    }
-}
+
 
 // jwt.sign({user}, 'secretkey', (err, token) => {
 //     res.json({
@@ -276,14 +268,14 @@ app.post('/login/:userName', async (req, res, next) => {
     try {
     //find user   
     let user = await userDb.collection('UserInfo').find({"UserName": req.params.userName}).next(
-         async function  (err, data) {
+         async function  (err, user) {
            
         if (!err) {
             //compare passwords using bcrypt
-            await bcrypt.compare(req.body.password, data.Password, function (err, result) {
+            await bcrypt.compare(req.body.password, user.Password, function (err, result) {
                 if (result === true) {
-                    console.log(data)
-                   const accessToken = jwt.sign(data, 'shhhhhh')
+                    console.log(user)
+                   const accessToken = jwt.sign(user, "shhhh", {expiresIn: '36000s'})
                   res.send({'TokenAuth': accessToken})
                 } else {
                     res.send('Incorrect password');
@@ -293,9 +285,6 @@ app.post('/login/:userName', async (req, res, next) => {
                 console.log(err)
         }
     })
-
-
-
     } catch (errors) {
         console.error(errors);
         res.status(500).json({
@@ -303,6 +292,26 @@ app.post('/login/:userName', async (req, res, next) => {
         })
     }
 });
+
+//verify token
+
+function verifyToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+   const token = authHeader && authHeader.split(" ")[1]
+   if (token == null) return res.sendStatus(401)
+
+   jwt.verify(token, "shhhh", (err, user) => {
+       if (err) return res.sendStatus(403)
+       req.user = user
+   })
+}
+
+//delete Token by logout
+
+app.delete('/logout', (req,res) => {
+    token
+})
+
 
 //image upload routs and formula
 

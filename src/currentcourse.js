@@ -87,11 +87,31 @@ export default function CurrentCourse(props){
     return(
         <div id="currentCourse">
             <div>
-            <h1>{props.Course}</h1>
+            
             <img id="locationImage" src={props.image}></img>
             </div>
-            <span>Current Class dates</span>
-            <span>{futureDates}</span>
+            <span>
+            <span>
+            <h1>{props.Campus}</h1>
+            </span>
+            <span>
+                Immersive
+            </span>
+            <br></br>
+            <span>
+                After Hours
+            </span>
+            </span>
+            <span>
+                <span>
+                Current Class dates
+                </span>
+                <br></br>
+                <span>
+            {futureDates}
+            </span>
+            </span>
+            <span></span>
         
         </div>
     );

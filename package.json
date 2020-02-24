@@ -8,6 +8,7 @@
     "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.0",
@@ -27,6 +28,7 @@
     "url": "^0.11.0"
   },
   "scripts": {
+    "start:dev": "NODE_ENV=Development node ./app/Server/Server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }
