@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+require('dotenv').config({path:'../.env'});
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -24,7 +24,6 @@ const s3 = new aws.S3({
 var db
 var db2
 
-dotenv.config({path: './.env'})
 
 app.use(cors());
 app.use(bodyParser());
@@ -274,8 +273,7 @@ app.post('/login/:userName', async (req, res, next) => {
             //compare passwords using bcrypt
             await bcrypt.compare(req.body.password, user.Password, function (err, result) {
                 if (result === true) {
-                    console.log(user)
-                   const accessToken = jwt.sign(user, "shhhh", {expiresIn: '36000s'})
+                   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '36000s'})
                   res.send({'TokenAuth': accessToken})
                 } else {
                     res.send('Incorrect password');
