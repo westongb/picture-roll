@@ -298,9 +298,10 @@ function verifyToken(req, res, next) {
    const token = authHeader && authHeader.split(" ")[1]
    if (token == null) return res.sendStatus(401)
 
-   jwt.verify(token, "shhhh", (err, user) => {
+   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
        if (err) return res.sendStatus(403)
        req.user = user
+       next()
    })
 }
 
@@ -328,11 +329,82 @@ app.get( '/sign-s3', ( req, res ) => {
                 } else {
                   res.json({
                     signedRequest: data,
-                    url: `https://${process.env.helio-student-photos}.s3.amazonaws.com/${fileName}`
+                    url: `https://helio-student-photos.s3-us-west-1.amazonaws.com/${fileName}`
                   });
                 }
                });
 })
+
+
+
+app.post ('/profile-img-upload', (req, res) => {
+  let s3bucket = new AWS.S3({
+    accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
+	secretAccessKey: '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',
+	Bucket: 'helio-student-photos'
+  });
+//   s3bucket.createBucket(function () {
+//       var params = {
+//         Bucket: BUCKET_NAME,
+//         Key: file.name,
+//         Body: file.data
+//       };
+      s3bucket.upload(params, function (err, data) {
+        if (err) {
+          console.log('error in callback');
+          console.log(err);
+        }
+        console.log('success');
+        console.log(data);
+      });
+  });
+
+
+module.exports = (app) => {
+  // The following is an example of making file upload with additional body
+  // parameters.
+  // To make a call with PostMan
+  // Don't put any headers (content-type)
+  // Under body:
+  // check form-data
+  // Put the body with "element1": "test", "element2": image file
+
+  app.post('/api/upload', function (req, res, next) {
+    // This grabs the additional parameters so in this case passing in
+    // "element1" with a value.
+    const element1 = req.body.element1;
+
+    // var busboy = new Busboy({ headers: req.headers });
+
+    // // The file upload has completed
+    // busboy.on('finish', function() {
+    //   console.log('Upload finished');
+      
+    //   // Your files are stored in req.files. In this case,
+    //   // you only have one and it's req.files.element2:
+    //   // This returns:
+    //   // {
+    //   //    element2: {
+    //   //      data: ...contents of the file...,
+    //   //      name: 'Example.jpg',
+    //   //      encoding: '7bit',
+    //   //      mimetype: 'image/png',
+    //   //      truncated: false,
+    //   //      size: 959480
+    //   //    }
+    //   // }
+      
+    //   // Grabs your file object from the request.
+    //   const file = req.files.element2;
+    //   console.log(file);
+      
+    //   // Begins the upload to the AWS S3
+    //   uploadToS3(file);
+    // });
+
+    // req.pipe(busboy);
+  });
+}
 
     app.listen(5000, ()=> {
         console.log('listening on 5000')
