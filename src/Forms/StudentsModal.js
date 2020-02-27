@@ -54,7 +54,7 @@ export default function TransitionsModal() {
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Transition modal</h2>
             <AddStudent/>
-            <p id="transition-modal-description">react-transition-group animates me.</p>
+            <p id="transition-modal-description"></p>
           </div>
         </Fade>
       </Modal>

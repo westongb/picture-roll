@@ -10,12 +10,12 @@ export default function AddStudent() {
 
     useEffect(() => {
         getCourse({});
-        getSignedRequest();
+        // getSignedRequest();
        
     },[]);
 
 // set up state
-    const [studentSurvey, setStudentSurvey] = useState("");
+const [studentSurvey, setStudentSurvey] = useState("");
 const [studentName, setStudentName] = useState("");
 const [studentCourse, setStudentCourse] = useState("");
 const [classes, setClasses] = useState("");
@@ -25,20 +25,22 @@ const [selectedFile, setSelectedFile] = useState(null);
 //form data format and fetch
     const formData= new FormData();
    
-    if ( selectedFile !== null ) {
-    formData.append('filename',selectedFile, selectedFile.name)
-    }
+   
+    formData.append('filename', selectedFile)
+    
+    var formEntries = Array.from(formData.entries());
+    console.log("formEntries " , formEntries); 
+    
   
-
     function submitFile (res, req) {
-        fetch('https://localhost5000/profile-img-upload',{
+        fetch('http://localhost:5000/imgupload',{
             method:'Post',
             headers: {
-                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+                'Content-Type': `multipart/form-data`
             },
             body: formData
         })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
           console.log(data)
         })
@@ -55,7 +57,7 @@ const [selectedFile, setSelectedFile] = useState(null);
         })
         .then((res) =>{
             setClasses(res)
-            return console.log(res)
+            // return console.log(res)
         },
 )
     }
@@ -85,17 +87,17 @@ const [selectedFile, setSelectedFile] = useState(null);
     }
 
     
-function getSignedRequest(selectedFile) {
-    return fetch(`/sign-s3`,{
-        method: "GET"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`${response.status}: ${response.statusText}`);
-        }
-        return response.json();
-      });
-  }
+// function getSignedRequest(selectedFile) {
+//     return fetch(`/sign-s3`,{
+//         method: "GET"
+//     })
+//       .then(response => {
+//         if (!response.ok) {
+//           throw new Error(`${response.status}: ${response.statusText}`);
+//         }
+//         return response.json();
+//       });
+//   }
 
 //define Variables for Deconstruction
 
@@ -137,17 +139,19 @@ if(classes != "") {
     })
 }   
 
+    let studentFileName;
 
+    if(selectedFile != null){
+    studentFileName = selectedFile.name}
 
-
-
-console.log(selectedFile)
+  
 
     return(
         <div>
             <h1>Add A New Student</h1>
             <form onSubmit={submitHandle}>
             <label>Student Picture</label>
+    
             <StyledDropZone 
             onDrop={files => setSelectedFile(files)}>
             {({getRootProps, getInputProps}) => (
@@ -164,7 +168,7 @@ console.log(selectedFile)
                     </div>
                     )}
                 </StyledDropZone>
-                
+                <p>{studentFileName}</p>
                 <br></br>
                 <label className='formLabel'>Student Name</label>
                 <input type="text" value={studentName} onChange={(e)=>{setStudentName(e.target.value)}}/>
