@@ -36,13 +36,15 @@ const [selectedFile, setSelectedFile] = useState(null);
         fetch('http://localhost:5000/imgupload',{
             method:'Post',
             headers: {
-                'Content-Type': `multipart/form-data`
+                'Content-Type': 'multipart/form-data',
+                'charset':'utf-8',
+                'Boundary':"----WebKitFormBoundary7MA4YWxkTrZu0gW"
             },
             body: formData
         })
         .then(res => res.json())
         .then(data => {
-          console.log(data)
+          console.log('sent to express')
         })
         .catch(error => {
           console.error(error)

@@ -7,7 +7,6 @@ const app = express();
 const port = process.env.PORT || 5000;
 const fs = require('fs');
 const AWS = require( 'aws-sdk' );
-const multerS3 = require( 'multer-s3' );
 const multer = require('multer');
 const path = require( 'path' );
 const url = require('url');
@@ -16,7 +15,7 @@ const { check, validationResult} = require("express-validator/check");
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 const upload = multer();
-
+var multerS3 = require('multer-s3')
 
 var db
 var db2
@@ -296,15 +295,9 @@ app.delete('/logout', (req,res) => {
 
 //image upload routs and formula
 
-const BUCKET_NAME = "helio-student-photos";
-const IAM_USER_KEY = "trial" ;
-const IAM_USER_SECRET= "trial" ;
 
-const s3 = new AWS.S3({
-	accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
-	secretAccessKey: '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',
-	Bucket: 'helio-student-photos'
-});
+
+
 
 
 app.get( '/sign-s3', ( req, res ) => {
@@ -326,91 +319,76 @@ app.get( '/sign-s3', ( req, res ) => {
      });
 })
 
+// const BUCKET_NAME = "helio-student-photos";
+// const IAM_USER_KEY = "trial" ;
+// const IAM_USER_SECRET= "trial" ;
 
+
+AWS.config.update({
+    accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
+	secretAccessKey: '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',
+    region: 'us-west-1'
+})
+
+const s3 = new AWS.S3();
+
+ 
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'helio-student-photos',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+});
+
+
+const singleUpload = upload.single('file');
 
 app.post ('/imgupload', (req, res) => {
-    try {
-    if (req.body.file === undefined) 
-       { let s3bucket = new AWS.S3({
-            accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
-            secretAccessKey: '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',
-            Bucket: 'helio-student-photos'
-        });
-            s3bucket.upload(req.body.files, function (err, data) {
-            
-                if (err) {
-                console.log('error in callback');
-                console.log(err);
-                }
-                res.send({
-                    status: true,
-                    message: 'File is uploaded',
-                    data: {
-                        name: file.name,
-                        mimetype: file.mimetype,
-                        size: file.size
-                    }
-                });
-            });} else {
-                console.log('no data')
-                res.send({
-                    status: false,
-                    message: 'No Files Uploaded'
-                })
-            };
+    singleUpload(req, res, (err)=>{
+        return res.json({'fileurl': req.file.location})
+    })
 
-
-// module.exports = (app) => {
-//   // The following is an example of making file upload with additional body
-//   // parameters.
-//   // To make a call with PostMan
-//   // Don't put any headers (content-type)
-//   // Under body:
-//   // check form-data
-//   // Put the body with "element1": "test", "element2": image file
-
-//   app.post('/api/upload', function (req, res, next) {
-//     // This grabs the additional parameters so in this case passing in
-//     // "element1" with a value.
-//     const element1 = req.body.element1;
-
-//     // var busboy = new Busboy({ headers: req.headers });
-
-//     // // The file upload has completed
-//     // busboy.on('finish', function() {
-//     //   console.log('Upload finished');
-      
-//     //   // Your files are stored in req.files. In this case,
-//     //   // you only have one and it's req.files.element2:
-//     //   // This returns:
-//     //   // {
-//     //   //    element2: {
-//     //   //      data: ...contents of the file...,
-//     //   //      name: 'Example.jpg',
-//     //   //      encoding: '7bit',
-//     //   //      mimetype: 'image/png',
-//     //   //      truncated: false,
-//     //   //      size: 959480
-//     //   //    }
-//     //   // }
-      
-//     //   // Grabs your file object from the request.
-//     //   const file = req.files.element2;
-//     //   console.log(file);
-      
-//     //   // Begins the upload to the AWS S3
-//     //   uploadToS3(file);
-//     // });
-
-//     // req.pipe(busboy);
-//   });
-// }
-
-}catch (err) {
-    res.status(500).send(err);
-    console.log('caught the error')
-}
 })
+
+
+// app.post ('/imgupload', (req, res) => {
+//     try {
+//     if (req.body.file === undefined) 
+//        { let s3bucket = new AWS.S3({
+//             accessKeyId: 'AKIAW6RK5BRDDCXWLZ7S',
+//             secretAccessKey: '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',
+//             Bucket: 'helio-student-photos'
+//         });
+//         s3bucket.createBucket(function () {
+//             var params = {
+//               Bucket: BUCKET_NAME,
+//               Key: file.name,
+//               Body: file.data
+//             };
+//             s3bucket.upload(params, function (err, data) {
+//               if (err) {
+//                 console.log('error in callback');
+//                 console.log(err);
+//               }
+//               console.log('success');
+//               console.log(data);
+//             });
+//         });
+//       }
+      
+
+
+// }catch (err) {
+//     res.status(500).send(err);
+//     console.log('caught the error')
+// }
+// })
     app.listen(5000, ()=> {
         console.log('listening on 5000')
     });

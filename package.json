@@ -7,6 +7,7 @@
     "aws-sdk": "^2.616.0",
     "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
+    "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express-fileupload": "^1.1.6",
