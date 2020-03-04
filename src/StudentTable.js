@@ -51,8 +51,12 @@ let studentImage;
 let studentName;
 let Course;
 let studentSurvey;
+let studentNameSplit;
+let studentFirst;
+let studentLast;
 
-const imageURL = `https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentName}.jpg`
+
+const imageURL = `https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentFirst}+${studentLast}.jpg`
 
 
 if(props.classList != "") {
@@ -61,13 +65,15 @@ tablerows = props.classList.map((item, i) => {
   studentName = item.studentName;
   Course = item.course;
   studentSurvey = item.studentSurvey;
-
+  studentNameSplit = studentName.split(' ');
+  studentFirst = studentNameSplit[0];
+  studentLast = studentNameSplit[1];
 
 
 
   return(
     <TableRow>
-<TableCell><img src={`https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentName}.jpg`} className="studentImage"/></TableCell>
+<TableCell><img src={`https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentFirst}+${studentLast}.jpg`} className="studentImage"/></TableCell>
   <TableCell>{studentName}</TableCell>
   <TableCell>{Course}</TableCell>
   <TableCell>{studentSurvey}</TableCell>

@@ -29,12 +29,12 @@ const [selectedFile, setSelectedFile] = useState(null);
     formData.append('filename', selectedFile)
     
     var formEntries = Array.from(formData.entries());
-    console.log("formEntries " , formEntries); 
-    
+
+    console.log(formEntries)
   
     function submitFile (res, req) {
-        fetch('http://localhost:5000/imgupload',{
-            method:'Post',
+        fetch(`http://localhost:5000/imgupload`,{
+            method:'POST',
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'charset':'utf-8',
@@ -42,9 +42,9 @@ const [selectedFile, setSelectedFile] = useState(null);
             },
             body: formData
         })
-        .then(res => res.json())
+        .then(res => res.data)
         .then(data => {
-          console.log('sent to express')
+          console.log(data)
         })
         .catch(error => {
           console.error(error)
@@ -66,27 +66,27 @@ const [selectedFile, setSelectedFile] = useState(null);
 
  const submitHandle = async(e) => {
     e.preventDefault();
-    await postStudent(e);
+    // await postStudent(e);
     await submitFile(e);
  }
 
 
-    function postStudent(res){
-        fetch("http://localhost:5000/students/new", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({
-                studentName: studentName,
-                course: studentCourse,
-                studentSurvey: studentSurvey
-            })
+    // function postStudent(res){
+    //     fetch("http://localhost:5000/students/new", {
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body:JSON.stringify({
+    //             studentName: studentName,
+    //             course: studentCourse,
+    //             studentSurvey: studentSurvey
+    //         })
             
-        }).then(
-            res=> console.log("this Worked")
-        )
-    }
+    //     }).then(
+    //         res=> console.log("this Worked")
+    //     )
+    // }
 
     
 // function getSignedRequest(selectedFile) {

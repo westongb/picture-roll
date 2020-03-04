@@ -14,16 +14,13 @@ const bcrypt = require('bcrypt')
 const { check, validationResult} = require("express-validator/check");
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
-const upload = multer();
 var multerS3 = require('multer-s3')
 
 var db
 var db2
 
-app.use(upload.array()); 
-app.use(fileUpload({
-    createParentPath: true
-}));
+
+
 app.use(cors());
 app.use(bodyParser());
 app.use(express.static('./Public'))
@@ -337,23 +334,27 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'helio-student-photos',
+    acl: 'public-read',
     metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
+        console.log(file)
+      cb(null, {fieldname: file.originalname});
     },
     key: function (req, file, cb) {
-      cb(null, Date.now().toString())
+        console.log(file)
+      cb(null, file.originalname)
     }
   })
 });
 
 
-const singleUpload = upload.single('file');
+const singleUpload = upload.single('filename');
 
 app.post ('/imgupload', (req, res) => {
+    
     singleUpload(req, res, (err)=>{
+       
         return res.json({'fileurl': req.file.location})
     })
-
 })
 
 
