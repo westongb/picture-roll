@@ -19,7 +19,7 @@ const [studentSurvey, setStudentSurvey] = useState("");
 const [studentName, setStudentName] = useState("");
 const [studentCourse, setStudentCourse] = useState("");
 const [classes, setClasses] = useState("");
-const [selectedFile, setSelectedFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState([]);
 
 
 //form data format and fetch
@@ -42,7 +42,7 @@ const [selectedFile, setSelectedFile] = useState(null);
             },
             body: formData
         })
-        .then(res => res.data)
+        .then(res => console.log(res.data))
         .then(data => {
           console.log(data)
         })

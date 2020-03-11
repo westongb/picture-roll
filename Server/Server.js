@@ -171,7 +171,7 @@ app.post("/students/new", (req,res) => {
 app.delete("/students/delete/:_id", (req, res) => {
    var id= req.params._id;
    console.log(id);
-db2.collection('Students').deleteOne({"_id":req.params._id}
+db2.collection('Students').deleteOne({"_id":id}
     , (err, response) => {
     if (err) throw err;
     db2.collection('Students').find({}).toArray( (err,data) =>{
@@ -346,13 +346,12 @@ const upload = multer({
   })
 });
 
+const singleUpload = upload.single("filename");
 
-const singleUpload = upload.single('filename');
 
 app.post ('/imgupload', (req, res) => {
-    
+    console.log(req.fieldname)
     singleUpload(req, res, (err)=>{
-       
         return res.json({'fileurl': req.file.location})
     })
 })

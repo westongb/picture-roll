@@ -45,6 +45,8 @@ const [defaultImage, setDefaultImage] = useState(null)
 
 
 
+
+
 let url;
 let tablerows;
 let studentImage;
@@ -54,6 +56,9 @@ let studentSurvey;
 let studentNameSplit;
 let studentFirst;
 let studentLast;
+let studentId;
+
+
 
 
 const imageURL = `https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentFirst}+${studentLast}.jpg`
@@ -61,6 +66,7 @@ const imageURL = `https://helio-student-photos.s3-us-west-1.amazonaws.com/${stud
 
 if(props.classList != "") {
 tablerows = props.classList.map((item, i) => {
+  studentId= item._id;
   studentImage = item.studentImage;
   studentName = item.studentName;
   Course = item.course;
@@ -69,16 +75,20 @@ tablerows = props.classList.map((item, i) => {
   studentFirst = studentNameSplit[0];
   studentLast = studentNameSplit[1];
 
-
+  function deleteStudent() {
+      fetch(`http://localhost:5000/students/delete/${studentId}`, {
+      method: 'delete'}).then(res => res.json())
+  }
 
   return(
     <TableRow>
 <TableCell><img src={`https://helio-student-photos.s3-us-west-1.amazonaws.com/${studentFirst}+${studentLast}.jpg`} className="studentImage"/></TableCell>
+<TableCell>{studentId}</TableCell>
   <TableCell>{studentName}</TableCell>
   <TableCell>{Course}</TableCell>
   <TableCell>{studentSurvey}</TableCell>
   <TableCell>{
-    <button>Delete</button>
+    <button onClick={ ()=> deleteStudent(studentId)} >Delete</button>
     }</TableCell>
   <TableCell>{<button>Update</button>}</TableCell>
     </TableRow>
