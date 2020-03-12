@@ -15,6 +15,7 @@ const { check, validationResult} = require("express-validator/check");
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 var multerS3 = require('multer-s3')
+var ObjectId = require('mongodb').ObjectID;
 
 var db
 var db2
@@ -169,9 +170,8 @@ app.post("/students/new", (req,res) => {
 })
 
 app.delete("/students/delete/:_id", (req, res) => {
-   var id= req.params._id;
-   console.log(id);
-db2.collection('Students').deleteOne({"_id":id}
+   console.log(req.params._id)
+db2.collection('Students').remove({"_id": ObjectId(req.params._id)}
     , (err, response) => {
     if (err) throw err;
     db2.collection('Students').find({}).toArray( (err,data) =>{
